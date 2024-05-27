@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: lightblue;
+    }
+    #calculator {
+        width: 300px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    input[type="number"] {
+        width: 100px;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    #result {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+<div id="calculator">
+    <h2>Age Calculator</h2>
+    <label for="birthYear">Enter Birth Year:-</label>
+    <input type="number" id="birthYear" min="1900" max="2024" required>
+    <br>
+    <label for="birthMonth">Enter Birth Month:-</label>
+    <input type="number" id="birthMonth" min="1" max="12" required>
+    <br>
+    <label for="birthDay">Enter Birth Day:-</label>
+    <input type="number" id="birthDay" min="1" max="31" required>
+    <br>
+    <button onclick="calculateAge()">Calculate Age</button>
+    <div id="result"></div>
+</div>
+<script>
+    function calculateAge() {
+        var birthYearInput = document.getElementById("birthYear");
+        var birthMonthInput = document.getElementById("birthMonth");
+        var birthDayInput = document.getElementById("birthDay");
+
+        var birthYear = parseInt(birthYearInput.value);
+        var birthMonth = parseInt(birthMonthInput.value);
+        var birthDay = parseInt(birthDayInput.value);
+
+        // Validate inputs
+        var currentDate = new Date();
+        var currentYear = currentDate.getFullYear();
+        var currentMonth = currentDate.getMonth() + 1;
+        var currentDay = currentDate.getDate();
+
+        if (birthYear > currentYear || (birthYear === currentYear && birthMonth > currentMonth) || (birthYear === currentYear && birthMonth === currentMonth && birthDay > currentDay)) {
+            alert("Please enter a valid date of birth.");
+            return;
+        }
+
+        var birthDate = new Date(birthYear, birthMonth - 1, birthDay);
+
+        var ageInMilliseconds = currentDate - birthDate;
+        var ageInYears = Math.floor(ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25));
+        var remainingDays = Math.floor((ageInMilliseconds % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
+
+        var result = document.getElementById("result");
+        result.innerHTML = "Your age is " + ageInYears + " years and " + remainingDays + " days.";
+    }
+</script>
+</body>
+</html>
